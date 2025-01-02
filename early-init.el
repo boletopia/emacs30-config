@@ -50,7 +50,7 @@
 
 
 ;; Suppress flashing at startup
-(when (file-directory-p "~/.emacs.d/elpa/")
+(when (file-directory-p (expand-file-name "elpa/" default-directory))
   (setq inhibit-message t)
   (add-hook 'window-setup-hook
 			(lambda ()
@@ -59,6 +59,7 @@
 			  (redisplay))))
 
 (provide 'early-init)
+
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars)
 ;; End:

@@ -2,52 +2,10 @@
 ;;; Commentary:
 ;;
 ;;; Code:
-;; (setq debug-on-error t)
+(setq debug-on-error t)
 
-(when (version< emacs-version "30")
-  (error "This requires Emacs 30 and above!"))
-
-;; Add user directory "elisp" to load-path
-(push (expand-file-name "elisp/" user-emacs-directory) load-path)
-(push (expand-file-name "inits/" user-emacs-directory) load-path)
-
-
-;;  Auto compile
-(defun auto-compile-inits ()
-  "Byte compile Lisp files modified in the directory."
-  (interactive)
-  (byte-recompile-directory (expand-file-name "elisp" user-emacs-directory) 0)
-  (byte-recompile-directory (expand-file-name "inits" user-emacs-directory) 0))
-(add-hook 'kill-emacs-hook 'auto-compile-inits)
-
-
-;; detect if we can run gui
-(defconst is-gui (eq window-system 'x))
-
-
-;; Faster to disable these here (before they've been initialized)
-(when is-gui
-  (push '(fullscreen . maximized) default-frame-alist))
-
-
-;; Set transparency for gui
-(when is-gui
-  (push '(alpha . (90 . 90)) default-frame-alist))
-
-
-;; initialize package.el
-(require 'package)
-(package-initialize)
-
-;; Add package archives
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-
-
-;; Ensure use-pacakge is installed
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
+(when (version< emacs-version "29")
+  (error "This requires Emacs 29 and above!"))
 
 ;; Bootstrap straight.el
 (defvar bootstrap-version)
@@ -66,7 +24,29 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(straight-use-package 'use-package)
+
+;;;  Auto compile
+(defun auto-compile-inits ()
+  "Byte compile Lisp files modified in the directory."
+  (interactive)
+  (byte-recompile-directory (expand-file-name "elisp/" default-directory) 0)
+  (byte-recompile-directory (expand-file-name "inits/" default-directory) 0))
+(add-hook 'kill-emacs-hook 'auto-compile-inits)
+
 ;; Init loader
+(defvar main-dir user-emacs-directory
+  "The root directory of my Emacs configuration.")
+
+;; This help with Warning:
+; Your ‘load-path’ seems to contain your ‘user-emacs-directory’: .
+; This is likely to cause problems... Consider using a subdirectory instead
+(setq user-emacs-directory (expand-file-name "savefiles/" main-dir))
+
+;; Add user directory "elisp" to load-path
+; (push (expand-file-name "elisp/" main-dir) load-path)
+(push (expand-file-name "inits/" main-dir) load-path)
+
 (use-package init-loader :ensure t
   :straight '(init-loaderc
               :type git
@@ -75,8 +55,42 @@
   :config
   (custom-set-variables
    '(init-loader-show-log-after-init 'error-only))
-  (init-loader-load)
-  (setq custom-file (locate-user-emacs-file (expand-file-name "tmp/custom.el" user-emacs-directory))))
+  (init-loader-load (concat main-dir "inits"))
+  (setq custom-file (locate-user-emacs-file (expand-file-name "tmp/custom.el" main-dir))))
+
+
+;;; System type
+;; detect if we can run gui
+(defconst is-gui (eq window-system 'x))
+
+
+;; detect if this is the work laptop by hostname
+(defconst is-work-pc (if (string-match-p "ant.amazon.com\\'" system-name)
+    t nil))
+
+
+;; detect if this is the work cloud desktop
+(defconst is-work-pc-cloud (if (string-match-p "^dev-dsk" system-name)
+                         t nil))
+
+
+;; detect if this is running on android
+(defconst is-android (eq system-type 'android))
+
+
+;; create a machine id field
+(if (not is-android)
+    (defconst machine-id (substring (string-trim-right (with-temp-buffer (insert-file-contents "/etc/machine-id") (buffer-string))) -4 nil)))
+
+
+;; Faster to disable these here (before they've been initialized)
+(when is-gui
+  (push '(fullscreen . maximized) default-frame-alist))
+
+
+;; Set transparency for gui
+(when is-gui
+  (push '(alpha . (90 . 90)) default-frame-alist))
 
 
 (provide 'init)
