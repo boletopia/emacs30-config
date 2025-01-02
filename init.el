@@ -39,12 +39,12 @@
   "The root directory of my Emacs configuration.")
 
 ;; This help with Warning:
-; Your ‘load-path’ seems to contain your ‘user-emacs-directory’: .
-; This is likely to cause problems... Consider using a subdirectory instead
+					; Your ‘load-path’ seems to contain your ‘user-emacs-directory’: .
+					; This is likely to cause problems... Consider using a subdirectory instead
 (setq user-emacs-directory (expand-file-name "savefiles/" main-dir))
 
 ;; Add user directory "elisp" to load-path
-; (push (expand-file-name "elisp/" main-dir) load-path)
+					; (push (expand-file-name "elisp/" main-dir) load-path)
 (push (expand-file-name "inits/" main-dir) load-path)
 
 (use-package init-loader :ensure t
@@ -66,16 +66,44 @@
 
 ;; detect if this is the work laptop by hostname
 (defconst is-work-pc (if (string-match-p "ant.amazon.com\\'" system-name)
-    t nil))
+			 t nil))
 
 
 ;; detect if this is the work cloud desktop
 (defconst is-work-pc-cloud (if (string-match-p "^dev-dsk" system-name)
-                         t nil))
+                               t nil))
 
 
 ;; detect if this is running on android
 (defconst is-android (eq system-type 'android))
+
+(when is-android
+
+  ;; Add termux binaries
+  ;; https://marek-g.github.io/posts/tips_and_tricks/emacs_on_android/
+
+  (setenv "PATH" (format "%s:%s" "/data/data/com.termux/files/usr/bin"
+			 (getenv "PATH")))
+  (setenv "LD_LIBRARY_PATH" (format "%s:%s"
+				    "/data/data/com.termux/files/usr/lib"
+				    (getenv "LD_LIBRARY_PATH")))
+  (push "/data/data/com.termux/files/usr/bin" exec-path)
+
+
+  ;; provide gnutls since android emacs isn't compiled with one
+  (setq tls-program '("gnutls-cli -p %p %h"
+		      "gnutls-cli -p %p %h --protocols ssl3"))
+
+
+  ;; Add modifier key bar
+  ;; after init
+  (require 'tool-bar)
+  (add-hook 'after-init-hook
+            (lambda ()
+              (tool-bar-mode 1)
+              ;;(menu-bar-mode 1)
+              (set-frame-parameter nil 'tool-bar-position 'bottom)
+              (modifier-bar-mode 1))))
 
 
 ;; create a machine id field
