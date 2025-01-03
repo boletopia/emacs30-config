@@ -1,14 +1,15 @@
-;;; early-init.el --- Early Initialization. -*- lexical-binding: t -*-
+;;; -*- lexical-binding: t -*-
+;;; early-init.el --- Early Initialization.
 ;;; Commentary:
 ;;
 ;; Emacs 27+ introduces early-init.el, which is run before init.el,
 ;; before package and UI initialization.
 ;;
-;;; Code:
-;; (setq debug-on-error t)
-;;
 ;;; Make a symoblic link to deploy this confiuration
 ;; ln -s ~/dotfiles/emacs/ ~/.emacs.d
+;;
+;; Android
+;; ln -s /storage/self/primary/Documents/emacs /data/data/org.gnu.emacs/files/.emacs.d
 ;;
 ;;; Install font Hack
 ;; follow this instructions: https://github.com/source-foundry/Hack/blob/master/README.md
