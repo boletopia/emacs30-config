@@ -75,3 +75,7 @@
             (org-set-property "AUDIO_SOURCE" archive-file))))))
 
   (add-hook 'whisper-post-process-hook 'my-save-whisper-audio-clip 100))
+
+
+;; piper
+;; https://github.com/akhil3417/Doom-Emacs-Config/blob/fb0a78adcce887b3b9fd36cb8b8c8072f9cafd4c/lisp/helper-funcs.el#L292
