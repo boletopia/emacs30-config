@@ -35,6 +35,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(require 'showkey)
 
 ;;; User-facing options
 
@@ -73,10 +74,17 @@
   :type 'boolean
   :group 'piper)
 
+(defcustom piper-tooltip-height 200
+  "Height of the tooltip text when `piper-mode` is active, in units of 1/10 point."
+  :type 'integer
+  :group 'piper)
+
 ;;; Internal variables
 
 (defvar piper--stdout-buffer-name "*piper-stdout*")
 (defvar piper--stderr-buffer-name "*piper-stderr*")
+(defvar piper--original-tooltip-height nil
+  "Stores the original `showkey-tooltip-height` value to restore when `piper-mode` is disabled.")
 
 ;;; Utility functions
 
@@ -139,21 +147,55 @@
 
 
 ;;; Piper Mode
-
 ;;;###autoload
 (define-minor-mode piper-mode
-  "Minor mode for speaking letters as you type."
+  "Minor mode for speaking letters as you type and showing them in a tooltip.
+When `piper-mode` is enabled, it also enables `showkey-tooltip-mode`."
   :lighter " Piper"
   :keymap nil
   (if piper-mode
-      (add-hook 'post-self-insert-hook #'piper--speak-current-char nil t)
-    (remove-hook 'post-self-insert-hook #'piper--speak-current-char t)))
+      (progn
+        ;; Save the original tooltip height and set a larger one for Piper mode
+        (setq piper--original-tooltip-height showkey-tooltip-height)
+        (setq showkey-tooltip-height piper-tooltip-height)
+        ;; Enable `showkey-tooltip-mode` if not already enabled
+        (unless showkey-tooltip-mode
+          (showkey-tooltip-mode 1))
+        ;; Add the hook to handle keypresses
+        (add-hook 'post-self-insert-hook #'piper--speak-and-show-key nil t))
+    ;; Restore the original tooltip height and remove the hook
+    (setq showkey-tooltip-height piper--original-tooltip-height)
+    ;; Disable `showkey-tooltip-mode` if it was enabled by `piper-mode`
+    (when showkey-tooltip-mode
+      (showkey-tooltip-mode -1))
+    ;; Remove the hook
+    (remove-hook 'post-self-insert-hook #'piper--speak-and-show-key t)))
 
 (defun piper--speak-current-char ()
   "Speak the character just typed."
   (let ((char (char-before)))
     (when (and char (characterp char))
       (piper-speak-letter char))))
+
+(defun piper--speak-and-show-key ()
+  "Speak the character just typed and show it using a tooltip.
+The tooltip position respects the default behavior of `showkey.el`."
+  (let ((char (char-before)))
+    (when (and char (characterp char))
+      ;; Speak the character using Piper.
+      (piper-speak-letter char)
+      ;; Prepare the tooltip text.
+      (let* ((key-desc (string char))
+             (tooltip-text (propertize key-desc
+                                       'face `(:background ,(face-attribute 'tooltip :background nil t)
+                                                           :foreground ,(face-attribute 'tooltip :foreground nil t)
+                                                           :family ,(face-attribute 'default :family nil t)
+                                                           :height ,showkey-tooltip-height)))
+             ;; Determine tooltip position. Use default `showkey.el` behavior.
+             (tooltip-x nil) ;; `showkey.el` defaults to relative position
+             (tooltip-y nil))
+        ;; Show the tooltip at the position determined by `showkey.el` defaults.
+        (x-show-tip tooltip-text (selected-frame) nil showkey-tooltip-timeout)))))
 
 ;;;###autoload
 (defun piper-toggle-mode ()

@@ -17,10 +17,13 @@
       (append package-list
 	      '(ellama      ; language model tool
 		magit       ; git client
+		showkey     ; show what key do I use to type
 		)))
 
 (when (not is-android)
 
+  (require 'straight)
+  
   (straight-use-package '(org :type built-in))
 
   (straight-use-package
