@@ -123,6 +123,10 @@
     (message "Sending text to Piper for TTS...")
     (piper--run-process text)))
 
+(defun piper-speak-letter (char)
+  "Speak the given CHAR using Piper."
+  (piper--run-process (string char)))
+
 ;;;###autoload
 (defun piper-file (file)
   "Run Piper to convert the contents of FILE to speech."
@@ -132,6 +136,35 @@
                 (buffer-string))))
     (message "Sending file contents to Piper for TTS...")
     (piper--run-process text)))
+
+
+;;; Piper Mode
+
+;;;###autoload
+(define-minor-mode piper-mode
+  "Minor mode for speaking letters as you type."
+  :lighter " Piper"
+  :keymap nil
+  (if piper-mode
+      (add-hook 'post-self-insert-hook #'piper--speak-current-char nil t)
+    (remove-hook 'post-self-insert-hook #'piper--speak-current-char t)))
+
+(defun piper--speak-current-char ()
+  "Speak the character just typed."
+  (let ((char (char-before)))
+    (when (and char (characterp char))
+      (piper-speak-letter char))))
+
+;;;###autoload
+(defun piper-toggle-mode ()
+  "Toggle Piper Mode."
+  (interactive)
+  (if piper-mode
+      (progn
+        (piper-mode -1)
+        (message "Piper mode disabled."))
+    (piper-mode 1)
+    (message "Piper mode enabled.")))
 
 (provide 'piper)
 ;;; piper.el ends here
