@@ -22,6 +22,5 @@
   (add-hook 'after-init-hook
             (lambda ()
               (tool-bar-mode 1)
-              (menu-bar-mode 1)
               (set-frame-parameter nil 'tool-bar-position 'bottom)
               (modifier-bar-mode 1))))

@@ -50,7 +50,7 @@
   (push '(alpha . (90 . 90)) default-frame-alist))
 
 (load "android")
-(load "package-manager")f
+(load "package-manager")
 (load "packages")
 (load "completion")
 
