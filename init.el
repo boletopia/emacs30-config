@@ -31,6 +31,12 @@
 (defvar is-work-pc-cloud (if (string-match-p "^dev-dsk" system-name) t nil) "detect if this is the work cloud desktop")
 (defvar is-android (eq system-type 'android) "detect if this is running on android")
 
+;;; mu4e
+;; pacman -Ql | grep mu4e
+(when (not is-android)
+  (add-to-list 'load-path 
+  "/usr/share/emacs/site-lisp/mu4e"))
+
 ;; create a machine id field
 (if (not is-android)
     (defconst machine-id (substring (string-trim-right (with-temp-buffer (insert-file-contents "/etc/machine-id") (buffer-string))) -4 nil)))
@@ -44,7 +50,7 @@
   (push '(alpha . (90 . 90)) default-frame-alist))
 
 (load "android")
-(load "package-manager")
+(load "package-manager")f
 (load "packages")
 (load "completion")
 
@@ -52,6 +58,7 @@
   (load "ai")
   (load "babel"))
 
+(load "gtd-v4")
 (load "orgmode")
 
 (provide 'init)

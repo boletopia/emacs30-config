@@ -1,5 +1,3 @@
-;;  -*- lexical-binding: t -*-
-
 ;; ellama
 ;; https://github.com/s-kostyaev/ellama
 ;; provide methods interacting with llms

@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t -*-
+;;
 
 (setq package-list
       '(orderless           ; Completion style for matching regexps in any order
@@ -18,6 +18,7 @@
 	      '(ellama      ; language model tool
 		magit       ; git client
 		showkey     ; show what key do I use to type
+		mailcap     ; Help handle mime data for emails
 		)))
 
 (when (not is-android)
@@ -26,8 +27,13 @@
   
   (straight-use-package '(org :type built-in))
 
+  ;; speech to text
   (straight-use-package
    '(whisper :type git :host github :repo "natrys/whisper.el"))
-  
+
+  ;; text to speech 
+  (straight-use-package
+   '(piper :type git :host github :repo "boletopia/piper.el"))
+
   (dolist (package desktop-only-package-list)
     (straight-use-package package)))

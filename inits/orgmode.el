@@ -1,4 +1,3 @@
-;; -*- lexical-binding: t -*-
 
 (setq-default org-directory "~/Documents/org"
               org-ellipsis " …"              ; Nicer ellipsis
