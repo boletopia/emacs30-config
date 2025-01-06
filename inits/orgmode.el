@@ -4,6 +4,7 @@
               org-tags-column 1              ; Tags next to header title
               org-hide-emphasis-markers t    ; Hide markers
               org-cycle-separator-lines 2    ; Number of empty lines between sections
+	      org-catch-invisible-edits 'show-and-error ; Check if in invisible region before edit
               org-use-tag-inheritance nil    ; Tags ARE NOT inherited 
               org-use-property-inheritance t ; Properties ARE inherited
               org-indent-indentation-per-level 2 ; Indentation per level

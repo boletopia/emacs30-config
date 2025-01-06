@@ -32,9 +32,45 @@
 
 ;; Files
 (setq org-directory "~/Documents/org")
-(setq org-agenda-files 
-      (mapcar 'file-truename 
-	      (file-expand-wildcards "~/Documents/org/*.org")))
+(setq org-agenda-files (list "inbox.org" "agenda.org"
+                             "notes.org" "projects.org"))
+
+;; Settings
+(setq org-agenda-window-setup 'current-window
+      org-agenda-restore-windows-after-quit t
+      org-agenda-show-all-dates nil
+      org-agenda-time-in-grid t
+      org-agenda-show-current-time-in-grid t
+      org-agenda-start-on-weekday 1
+      org-agenda-span 7
+      org-agenda-hide-tags-regexp "." ; No tags
+    ; org-agenda-hide-tags-regexp nil) ; All tags
+      org-agenda-tags-column 0
+    ; org-agenda-tags-column -79)      ; Left aling
+      org-agenda-block-separator nil
+      org-agenda-category-icon-alist nil
+      org-agenda-skip-deadline-if-done t
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-sticky t)
+
+
+;; Minimal time grid
+(setq org-agenda-time-grid
+      '((daily today require-timed)
+        ()
+        "......" "----------------"))
+
+(setq org-agenda-current-time-string "   now")
+
+;; Function to cancel a meeting
+;; https://github.com/rougier/dotemacs/blob/b31f0bea9ff8d6aa5c8e424bd4850bbc9b79470b/dotemacs.org?plain=1#L3907
+(defun my/org-cancel-meeting ()
+  (interactive)
+  (org-entry-put (point) "CATEGORY" "cancelled")
+  (org-entry-put (point) "NOTE" "Cancelled")
+  (org-set-tags ":CANCELLED:"))
+
+
 ;; Capture
 (setq org-capture-templates
       `(("i" "Inbox" entry  (file "inbox.org")
@@ -59,9 +95,6 @@
   (interactive)
   (call-interactively 'org-store-link)
   (org-capture nil "@"))
-
-;; Use full window for org-capture
-(add-hook 'org-capture-mode-hook 'delete-other-windows)
 
 ;; Key bindings
 (define-key global-map            (kbd "C-c a") 'org-agenda)

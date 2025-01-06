@@ -4,6 +4,7 @@
       '(orderless           ; Completion style for matching regexps in any order
         vertico             ; VERTical Interactive COmpletion
 	marginalia          ; Enrich existing commands with completion annotations
+	mini-frame          ; Show minibuffer in child frame on read-from-minibuffer
 	))
 
 
