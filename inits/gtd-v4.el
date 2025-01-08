@@ -33,7 +33,9 @@
 ;; Files
 (setq org-directory "~/Documents/org")
 (setq org-agenda-files (list "inbox.org" "agenda.org"
-                             "notes.org" "projects.org"))
+                             "notes.org" "projects.org"
+			     "area.org"  "resource.org"
+			     "attic.org"))
 
 ;; Settings
 (setq org-agenda-window-setup 'current-window
@@ -111,7 +113,10 @@
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
 (setq org-refile-targets
-      '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")))
+      '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+      ("area.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+      ("resource.org" :maxlevel . 2)
+      ("attic.org" :maxlevel . 2)))
 
 ;; TODO
 (setq org-todo-keywords
