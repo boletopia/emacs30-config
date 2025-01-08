@@ -53,6 +53,7 @@
 (load "package-manager")
 (load "packages")
 (load "completion")
+(load "myholidays")
 
 (when (not is-android)
   (load "ai")
@@ -63,6 +64,19 @@
 
 (provide 'init)
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(cal-china-x cnfonts marginalia mini-frame orderless vertico)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars)
 ;; End:

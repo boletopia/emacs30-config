@@ -13,7 +13,8 @@
 ;;
 ;;; Install font Hack
 ;; follow this instructions: https://github.com/source-foundry/Hack/blob/master/README.md
-
+;; Android download font files
+;; ln -s /storage/self/primary/Documents/Font/ /data/data/org.gnu.emacs/files/fonts
 ;; Move garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)
 
