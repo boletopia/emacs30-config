@@ -8,6 +8,7 @@
 	mini-frame          ; Show minibuffer in child frame on read-from-minibuffer
 	cal-china-x         ; Holidays in china
 	cnfonts             ; Adjust for chinese font
+	org-roam
 	))
 
 
