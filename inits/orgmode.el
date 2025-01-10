@@ -1,4 +1,4 @@
-
+;; General orgmode setup
 (setq-default org-directory "~/Documents/org"
               org-ellipsis " …"              ; Nicer ellipsis
               org-tags-column 1              ; Tags next to header title
@@ -65,9 +65,7 @@
   (when (derived-mode-p 'org-mode)
     (zp/org-set-time-file-property "last_modified")))
 
-;; 
 (add-hook 'before-save-hook #'zp/org-set-last-modified)
-
 
 ;; http://xahlee.org/emacs/modernization_fill-paragraph.html
 (defun compact-uncompact-block ()
@@ -108,4 +106,5 @@ newline chars by space when the newline char is not inside string.
       (put this-command 'stateIsCompact-p
            (if currentStateIsCompact
                nil t)))))
+
 (global-set-key (kbd "M-q") 'compact-uncompact-block)

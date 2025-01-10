@@ -53,7 +53,6 @@
 (load "package-manager")
 (load "packages")
 (load "completion")
-(load "myholidays")
 
 (when (not is-android)
   (load "ai")
@@ -61,6 +60,7 @@
 
 (load "gtd-v4")
 (load "orgmode")
+(load "myholidays")
 
 (provide 'init)
 
