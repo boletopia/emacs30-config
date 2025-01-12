@@ -52,6 +52,7 @@
 (load "android")
 (load "package-manager")
 (load "packages")
+(load "base")
 (load "completion")
 (load "myholidays")
 
@@ -61,6 +62,7 @@
 
 (load "gtd-v4")
 (load "orgmode")
+(load "roam")
 
 (provide 'init)
 
@@ -70,7 +72,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(cal-china-x cnfonts marginalia mini-frame orderless org-roam vertico)))
+   '(cal-china-x cnfonts magit-section marginalia mini-frame orderless
+		 org-roam vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

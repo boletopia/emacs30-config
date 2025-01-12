@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;;; Source https://www.labri.fr/perso/nrougier/GTD/index.html
 
 ;; Key bindings
