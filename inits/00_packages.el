@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;;
 
 (setq package-list
@@ -7,7 +8,7 @@
 	mini-frame          ; Show minibuffer in child frame on read-from-minibuffer
 	cal-china-x         ; Holidays in china
 	cnfonts             ; Adjust for chinese font
-	org-roam
+	org-roam            ; Org-roam
 	))
 
 
@@ -23,6 +24,9 @@
 		magit       ; git client
 		showkey     ; show what key do I use to type
 		mailcap     ; Help handle mime data for emails
+		auto-complete-auctex ; latex autocomplete
+	        org-ref     ; bibliography management
+		bibtex      
 		)))
 
 (when (not is-android)

@@ -26,4 +26,12 @@
 	(eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage)))
 
-(provide 'package-manager)
+
+(when is-android
+    (unless (package-installed-p init-loader)
+      (package-install init-loader)))
+
+(when (not is-android)
+  (require 'straight)
+  (straight-use-package
+   '(init-loader :type git :host github :repo "emacs-jp/init-loader")))

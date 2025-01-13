@@ -11,6 +11,7 @@
   "Byte compile Lisp files modified in the directory."
   (interactive)
   (byte-recompile-directory (expand-file-name "inits/" default-directory) 0))
+
 (add-hook 'kill-emacs-hook 'auto-compile-inits)
 
 ;; Init loader
@@ -51,35 +52,24 @@
 
 (load "android")
 (load "package-manager")
-(load "packages")
-(load "base")
-(load "completion")
-(load "myholidays")
 
-(when (not is-android)
-  (load "ai")
-  (load "babel"))
+(require 'init-loader)
+(init-loader-load (expand-file-name "inits/" main-dir))
 
-(load "gtd-v4")
-(load "orgmode")
-(load "roam")
+;; (load "packages")
+;; (load "base")
+;; (load "completion")
+
+;; (when (not is-android)
+;;   (load "ai")
+;;   (load "babel"))
+
+;; (load "myholidays")
+;; (load "gtd-v4")
+;; (load "orgmode")
 
 (provide 'init)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(cal-china-x cnfonts magit-section marginalia mini-frame orderless
-		 org-roam vertico)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars)
 ;; End:
