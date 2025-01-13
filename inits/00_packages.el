@@ -26,7 +26,7 @@
 		mailcap     ; Help handle mime data for emails
 		auto-complete-auctex ; latex autocomplete
 	        org-ref     ; bibliography management
-		bibtex      
+		bibtex
 		)))
 
 (when (not is-android)

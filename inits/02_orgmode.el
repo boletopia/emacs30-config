@@ -17,6 +17,8 @@
               org-indirect-buffer-display 'other-window ; Tab on a task expand it in a new window
               org-outline-path-complete-in-steps nil) ; No steps in path display
 
+;; Soft wrap
+(global-visual-line-mode 1)
 
 ;; Update a last_modified timestamp 
 ;; https://github.com/zaeph/.emacs.d/blob/4548c34d1965f4732d5df1f56134dc36b58f6577/init.el#L2822-L2875
