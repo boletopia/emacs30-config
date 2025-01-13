@@ -2,10 +2,12 @@
 
 (when is-android (eval-and-compile
 		   (customize-set-variable
-		    'package-archives '(("melpa" . "https://melpa.org/packages/")))
+		    'package-archives '(("melpa" . "https://melpa.org/packages/")
+					("gnu" . "https://elpa.gnu.org/packages/")))
 		   (package-initialize)
+		   (unless package-archive-contents
+		     (package-refresh-contents))
 		   (unless (package-installed-p 'use-package)
-		     (package-refresh-contents)
 		     (package-install 'use-package))
 		   (require 'use-package)))
 
@@ -28,8 +30,8 @@
 
 
 (when is-android
-    (unless (package-installed-p init-loader)
-      (package-install init-loader)))
+  (unless (package-installed-p init-loader)
+    (package-install init-loader)))
 
 (when (not is-android)
   (require 'straight)

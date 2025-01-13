@@ -53,8 +53,11 @@
 (load "android")
 (load "package-manager")
 
-(require 'init-loader)
-(init-loader-load (expand-file-name "inits/" main-dir))
+(use-package init-loader
+  ;;(require 'init-loader)
+  :functions init-locader-load
+  :init (setq init-loader-byte-compile t)
+  :config (init-loader-load (expand-file-name "inits/" main-dir)))
 
 ;; (load "packages")
 ;; (load "base")
