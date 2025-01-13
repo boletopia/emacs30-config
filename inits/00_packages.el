@@ -7,6 +7,7 @@
 	marginalia          ; Enrich existing commands with completion annotations
 	deft                ; Quickly browse, filter, and edit plain text notes
 	mini-frame          ; Show minibuffer in child frame on read-from-minibuffer
+	visual-fill-column  ; Effect of visual-line-mode and fill-column
 	cal-china-x         ; Holidays in china
 	cnfonts             ; Adjust for chinese font
 	org-roam            ; Org-roam

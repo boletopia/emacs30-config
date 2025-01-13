@@ -20,6 +20,18 @@
 ;; Soft wrap
 (global-visual-line-mode 1)
 
+;; https://codeberg.org/joostkremers/visual-fill-column
+;; "mimics the effect of fill-column in visual-line-mode. I use it to achieve fill-column in org mode"
+(use-package visual-fill-column
+  :config
+  (defun yx-func/org-mode-visual-fill ()
+    (setq visual-fill-column-width 110
+          visual-fill-column-center-text t)
+    (visual-fill-column-mode 1))
+  (add-hook 'org-mode-hook #'yx-func/org-mode-visual-fill)
+  (advice-add 'text-scale-adjust :after #'visual-fill-column-adjust))
+
+
 ;; Update a last_modified timestamp 
 ;; https://github.com/zaeph/.emacs.d/blob/4548c34d1965f4732d5df1f56134dc36b58f6577/init.el#L2822-L2875
 (defun zp/org-find-time-file-property (property &optional anywhere)
