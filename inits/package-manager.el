@@ -1,15 +1,21 @@
 ;; -*- lexical-binding: t -*-
 
-(when is-android (eval-and-compile
-		   (customize-set-variable
-		    'package-archives '(("melpa" . "https://melpa.org/packages/")
-					("gnu" . "https://elpa.gnu.org/packages/")))
-		   (package-initialize)
-		   (unless package-archive-contents
-		     (package-refresh-contents))
-		   (unless (package-installed-p 'use-package)
-		     (package-install 'use-package))
-		   (require 'use-package)))
+(when is-android
+  (eval-and-compile
+    (customize-set-variable
+     'package-archives '(("melpa" . "https://melpa.org/packages/")
+			 ("gnu" . "https://elpa.gnu.org/packages/")))
+    (package-initialize)
+    (unless package-archive-contents
+      (package-refresh-contents))
+    (unless (package-installed-p 'use-package)
+      (package-install 'use-package))
+    
+    (require 'use-package))
+  
+  (unless (package-installed-p 'init-loader)
+    (package-vc-install
+     '(init-loader :url "https://github.com/emacs-jp/init-loader"))))
 
 (when (not is-android)
   (defvar bootstrap-version)
@@ -26,14 +32,9 @@
            'silent 'inhibit-cookies)
 	(goto-char (point-max))
 	(eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage)))
-
-
-(when is-android
-  (unless (package-installed-p init-loader)
-    (package-install init-loader)))
-
-(when (not is-android)
+    (load bootstrap-file nil 'nomessage))
+  
   (require 'straight)
+  
   (straight-use-package
    '(init-loader :type git :host github :repo "emacs-jp/init-loader")))

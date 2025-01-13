@@ -15,8 +15,16 @@
 (when is-android
   (dolist (package package-list)
     (unless (package-installed-p package)
-      (package-install package))))
-
+      (package-install package)))
+  
+  ;; srs
+  (unless (package-installed-p 'fsrs)
+    (package-vc-install
+     '(fsrs :url "https://github.com/bohonghuang/lisp-fsr")))
+  
+  (unless (package-installed-p 'org-srs)
+    (package-vc-install
+     '(org-srs :url "https://github.com/bohonghuang/org-srs"))))
 
 (setq desktop-only-package-list
       (append package-list
@@ -42,6 +50,13 @@
   ;; text to speech 
   (straight-use-package
    '(piper :type git :host github :repo "boletopia/piper.el"))
+
+  ;; srs
+  (straight-use-package
+  '(fsrs :type git :host github :repo "bohonghuang/lisp-fsrs"))
+
+  (straight-use-package
+   '(org-srs :type git :host github :repo "bohonghuang/org-srs"))
 
   (dolist (package desktop-only-package-list)
     (straight-use-package package)))

@@ -131,12 +131,10 @@ newline chars by space when the newline char is not inside string.
   (unless (file-exists-p org-roam-directory)
     (make-directory org-roam-directory))
 
-  (org-roam-setup)
-  
-  ;; If you're using a vertical completion framework, you might want a more informative completion interface
-  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-enable)
   (org-roam-db-autosync-mode)
-  
+
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
   (setq org-roam-node-display-template
 	(concat "${title:*} "
 		(propertize "${tags:10}" 'face 'org-tag)))
@@ -154,6 +152,17 @@ newline chars by space when the newline char is not inside string.
           (org-roam-capture-templates (list (append (car org-roam-capture-templates)
                                                     '(:immediate-finish t)))))
       (apply #'org-roam-node-insert args))))
+
+;; srs
+(use-package org-srs
+  :defer t
+  :after fsrs org
+  :hook (org-mode . org-srs-embed-overlay-mode)
+  :bind (:map org-mode-map
+         ("<f5>" . org-srs-review-rate-easy)
+         ("<f6>" . org-srs-review-rate-good)
+         ("<f7>" . org-srs-review-rate-hard)
+         ("<f8>" . org-srs-review-rate-again)))
 
 ;; Latex
 ;; Export from org to latex
