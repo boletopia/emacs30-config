@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;;; Source https://www.labri.fr/perso/nrougier/GTD/index.html
 
 ;; Key bindings
@@ -109,23 +110,14 @@
 ;; (define-key
 ;;  mu4e-view-mode-map    (kbd "C-c i") 'org-capture-mail)
 
-;; Currently opened file list
-;; https://stackoverflow.com/a/25262538
-(defun my-org-files-list ()
-  (mapcar (lambda (buffer)
-            (buffer-file-name buffer))
-          (org-buffer-list 'files t)))
-
-
 ;; Refile
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
 (setq org-refile-targets
       '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-      ("area.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-      ("resource.org" :maxlevel . 2)
-      ("attic.org" :maxlevel . 2)
-      (my-org-files-list :maxlevel 2)))
+	("area.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+	("resource.org" :maxlevel . 2)
+	("attic.org" :maxlevel . 2)))
 
 ;; TODO
 (setq org-todo-keywords

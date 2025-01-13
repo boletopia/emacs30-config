@@ -11,6 +11,7 @@
   "Byte compile Lisp files modified in the directory."
   (interactive)
   (byte-recompile-directory (expand-file-name "inits/" default-directory) 0))
+
 (add-hook 'kill-emacs-hook 'auto-compile-inits)
 
 ;; Init loader
@@ -51,33 +52,14 @@
 
 (load "android")
 (load "package-manager")
-(load "packages")
-(load "completion")
 
-(when (not is-android)
-  (load "ai")
-  (load "babel"))
-
-(load "gtd-v4")
-(load "orgmode")
-(load "myholidays")
+(use-package init-loader
+  :functions init-locader-load
+  :init (setq init-loader-byte-compile t)
+  :config (init-loader-load (expand-file-name "inits/" main-dir)))
 
 (provide 'init)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(cal-china-x cnfonts marginalia mini-frame orderless org-roam vertico)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-;; Local Variables:
 ;; byte-compile-warnings: (not free-vars)
 ;; End:
 ;;; init.el ends here

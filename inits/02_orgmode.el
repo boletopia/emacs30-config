@@ -1,4 +1,6 @@
-;; General orgmode setup
+;;; -*- lexical-binding: t -*-
+
+;; Configure general orgmode usage
 (setq-default org-directory "~/Documents/org"
               org-ellipsis " …"              ; Nicer ellipsis
               org-tags-column 1              ; Tags next to header title
@@ -15,6 +17,8 @@
               org-indirect-buffer-display 'other-window ; Tab on a task expand it in a new window
               org-outline-path-complete-in-steps nil) ; No steps in path display
 
+;; Soft wrap
+(global-visual-line-mode 1)
 
 ;; Update a last_modified timestamp 
 ;; https://github.com/zaeph/.emacs.d/blob/4548c34d1965f4732d5df1f56134dc36b58f6577/init.el#L2822-L2875
@@ -108,3 +112,59 @@ newline chars by space when the newline char is not inside string.
                nil t)))))
 
 (global-set-key (kbd "M-q") 'compact-uncompact-block)
+
+;; org roam
+;; ln -s /data/data/com.termux/files/home/storage/shared/Documents/org-roam /data/data/org.gnu.emacs/files/Documents/org-roam
+(use-package org-roam
+  :after org
+  :custom
+  (org-roam-directory (file-truename "~/Documents/org-roam/"))
+  :bind
+  ((("C-c n l" . org-roam-buffer-toggle)
+    ("C-c n r" . org-roam-node-random)
+    ("C-c n i" . org-roam-node-insert)
+    ("C-c n I" . yx-func/org-roam-node-insert-immediate)
+    ("C-c n c" . org-roam-capture)
+    ("C-c n f" . org-roam-node-find)))
+
+  :config
+  (unless (file-exists-p org-roam-directory)
+    (make-directory org-roam-directory))
+
+  (org-roam-db-autosync-enable)
+  (org-roam-db-autosync-mode)
+
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template
+	(concat "${title:*} "
+		(propertize "${tags:10}" 'face 'org-tag)))
+
+  (setq org-roam-capture-templates
+	'(("d" "default" plain "%?"
+           :if-new (file+head "${slug}.org"
+                              "#+title: ${title}\n#+created: %u\n#+last_modified: \n#+filetags:\n\n")
+           :unnarrowed t)))
+  
+  ;; bind to C-c n I
+  (defun yx-func/org-roam-node-insert-immediate (arg &rest args)
+    (interactive "P")
+    (let ((args (push arg args))
+          (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                    '(:immediate-finish t)))))
+      (apply #'org-roam-node-insert args))))
+
+;; srs
+(use-package org-srs
+  :defer t
+  :after fsrs org
+  :hook (org-mode . org-srs-embed-overlay-mode)
+  :bind (:map org-mode-map
+         ("<f5>" . org-srs-review-rate-easy)
+         ("<f6>" . org-srs-review-rate-good)
+         ("<f7>" . org-srs-review-rate-hard)
+         ("<f8>" . org-srs-review-rate-again)))
+
+;; Latex
+;; Export from org to latex
+(setq org-latex-pdf-process
+      '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))

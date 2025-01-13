@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 (require 'cal-china-x)
 (require 'cnfonts)
 
