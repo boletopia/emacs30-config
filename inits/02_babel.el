@@ -28,10 +28,14 @@ plt.clf()"))
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
-   (julia . t)
+   (julia-vterm . t)
    (python . t)
    (R . t)
    (sql . t)
+   (dot . t)
    (shell . t)))
+
+(defalias 'org-babel-execute:julia 'org-babel-execute:julia-vterm)
+(defalias 'org-babel-variable-assignments:julia 'org-babel-variable-assignments:julia-vterm)
 
 (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)

@@ -37,6 +37,8 @@
 		auto-complete-auctex ; latex autocomplete
 	        org-ref     ; bibliography management
 		bibtex
+		julia-vterm ; for julia
+		ob-julia-vterm 
 		)))
 
 (when (not is-android)
@@ -44,6 +46,9 @@
   (require 'straight)
   
   (straight-use-package '(org :type built-in))
+  
+  (dolist (package desktop-only-package-list)
+    (straight-use-package package))
 
   ;; speech to text
   (straight-use-package
@@ -58,7 +63,4 @@
   '(fsrs :type git :host github :repo "bohonghuang/lisp-fsrs"))
 
   (straight-use-package
-   '(org-srs :type git :host github :repo "bohonghuang/org-srs"))
-
-  (dolist (package desktop-only-package-list)
-    (straight-use-package package)))
+   '(org-srs :type git :host github :repo "bohonghuang/org-srs")))
